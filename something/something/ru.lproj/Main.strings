@@ -1,0 +1,24 @@
+
+/* Class = "UITextField"; placeholder = "e-mail"; ObjectID = "Kmg-FQ-78i"; */
+"Kmg-FQ-78i.placeholder" = "e-mail";
+
+/* Class = "UILabel"; text = "Don't have an account?"; ObjectID = "Lfk-PD-85Q"; */
+"Lfk-PD-85Q.text" = "Don't have an account?";
+
+/* Class = "UITextField"; placeholder = "password"; ObjectID = "NaF-Mg-HiW"; */
+"NaF-Mg-HiW.placeholder" = "password";
+
+/* Class = "UIButton"; configuration.title = "Signup here"; ObjectID = "REL-w4-Oky"; */
+"REL-w4-Oky.configuration.title" = "Signup here";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "REL-w4-Oky"; */
+"REL-w4-Oky.normalTitle" = "Button";
+
+/* Class = "UIButton"; configuration.title = "Login"; ObjectID = "dSz-gY-zr7"; */
+"dSz-gY-zr7.configuration.title" = "Login";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "dSz-gY-zr7"; */
+"dSz-gY-zr7.normalTitle" = "Button";
+
+/* Class = "UINavigationItem"; title = "Second"; ObjectID = "jhM-bU-F2D"; */
+"jhM-bU-F2D.title" = "Second";
