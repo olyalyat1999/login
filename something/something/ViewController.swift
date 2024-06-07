@@ -8,87 +8,97 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
-    @IBOutlet weak var emailButton: UITextField!
-    @IBOutlet weak var passwordButton: UITextField!
+
+	// Вынесем константы что бы было удобнее менять в одном месте и не искать их по классу
+	private struct Constants {
+		static let mockEmail: String = "abc@gmail.com"
+		static let mockPassword: String = "123456"
+		static let activeColor: String = "saturn"
+	}
+
+	//MARK: - UI Outlets
+
+	/// поменяем названия на текстфилд, что бы соответствовало элементам
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var envelopeVIew: UIImageView!
-    @IBOutlet weak var lockView: UIImageView!
-    @IBOutlet weak var emailLine: UIView!
-    @IBOutlet weak var passwordLine: UIView!
-    @IBOutlet weak var signUp: UIButton!
-    @IBOutlet weak var createAccount: UILabel!
+    @IBOutlet weak var envelopeImageView: UIImageView!
+    @IBOutlet weak var lockImageView: UIImageView!
+    @IBOutlet weak var emailLineView: UIView!
+    @IBOutlet weak var passwordLineView: UIView!
+    @IBOutlet weak var signUpButton: UIButton!
+    @IBOutlet weak var createAccountLabel: UILabel!
     
     //MARK: - Properties
-    private let activeColor = UIColor(named: "saturn") ?? UIColor.gray
+
+	private let activeColor = UIColor(named: Constants.activeColor) ?? UIColor.gray
     private var email: String = "" {
         didSet {
-            loginButton.isUserInteractionEnabled = !(email.isEmpty || password.isEmpty)
-            loginButton.backgroundColor = !(email.isEmpty || password.isEmpty) ? activeColor : . systemGray5
+			updateLoginButtonState() /// Уменьшим дублирование кода, вынесем его в отдельную функцию
         }
     }
     private var password: String = "" {
         didSet {
-            loginButton.isUserInteractionEnabled = !(email.isEmpty || password.isEmpty)
-            loginButton.backgroundColor = !(email.isEmpty || password.isEmpty) ? activeColor : . systemGray5
+			updateLoginButtonState() /// Уменьшим дублирование кода, вынесем его в отдельную функцию
         }
     }
     
-    private let mockPassword = "123456"
-    private let mockEmail = "abc@gmail.com"
-    
     //MARK: - Life cycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        print("viewDidLoad")
         setUpLoginButton()
-        emailButton?.delegate = self
-        passwordButton?.delegate = self
-        emailButton?.becomeFirstResponder()
+        emailTextField?.delegate = self
+        passwordTextField?.delegate = self
+        emailTextField?.becomeFirstResponder()
     }
     
     //MARK: - IBAction
+
     @IBAction func login(_ sender: Any) {
-        emailButton.resignFirstResponder()
-        passwordButton.resignFirstResponder()
-        
-        if email.isEmpty {
-            makeErrorField(textField: emailButton)
-        }
-        
-        if password.isEmpty {
-            makeErrorField(textField: passwordButton)
-        }
-        
-        if email == mockEmail,
-           password == mockPassword {
-            performSegue(withIdentifier: "goToHomePage", sender: sender)
-        } else {
-            let alert = UIAlertController(title: "Error".localized,
-                message: "Wrong password or e-mail".localized,
-                                          preferredStyle: .alert)
-            
-            let action = UIAlertAction(title: "OK".localized,style: .default)
-            alert.addAction(action)
-            
-            present(alert, animated: true)
-        }
+		view.endEditing(true)
+		guard !email.isEmpty else {
+			makeErrorField(textField: emailTextField)
+			return
+		}
+		guard !password.isEmpty else {
+			makeErrorField(textField: passwordTextField)
+			return
+		}
+		if email == Constants.mockEmail, password == Constants.mockPassword {
+			performSegue(withIdentifier: "goToHomePage", sender: sender)
+		} else {
+			showAlert(title: "Error".localized, message: "Wrong password or e-mail".localized)
+		}
     }
-    
-    @IBAction func signup(_ sender: Any) {
-        print("signUp")
-    }
-    
-   //MARK: - Private methods
+
+	@IBAction func signup(_ sender: Any) {
+		print("signUp")
+	}
+
+	//MARK: - Private methods
+
+	/// Разведем логику по отдельным функциям
+	private func showAlert(title: String, message: String) {
+		let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let action = UIAlertAction(title: "OK".localized, style: .default)
+		alert.addAction(action)
+		present(alert, animated: true)
+	}
+
+	/// Дублирующийся код - в отдельную функцию
+	private func updateLoginButtonState() {
+		let isEnabled = !(email.isEmpty || password.isEmpty)
+		loginButton.isUserInteractionEnabled = isEnabled
+		loginButton.backgroundColor = isEnabled ? activeColor : .systemGray5
+	}
+	
     private func setUpLoginButton() {
-        loginButton?.layer.shadowColor = activeColor.cgColor
-        loginButton?.layer.shadowOpacity = 0.4
-        loginButton?.layer.shadowRadius = 4
-        loginButton?.layer.shadowOffset = CGSize(width: 0, height: 8)
-        
-        loginButton.isUserInteractionEnabled = false
-        loginButton.backgroundColor = .systemGray5
+		loginButton.layer.shadowColor = activeColor.cgColor
+		loginButton.layer.shadowOpacity = 0.4
+		loginButton.layer.shadowRadius = 4
+		loginButton.layer.shadowOffset = CGSize(width: 0, height: 8)
+		updateLoginButtonState()
     }
 }
 
@@ -98,27 +108,27 @@ extension ViewController: UITextFieldDelegate {
         guard let text = textField.text?.trimmingCharacters(in: .whitespacesAndNewlines),
         !text.isEmpty else { return }
         switch textField {
-        case emailButton:
-           let isValidEmail = check(email: text)
+        case emailTextField:
+           let isValidEmail = isValidEmail(text)
             
             if isValidEmail {
                 email = text
-                envelopeVIew.tintColor = .systemGray5
-                emailLine .backgroundColor = .systemGray5
+                envelopeImageView.tintColor = .systemGray5
+                emailLineView .backgroundColor = .systemGray5
             } else {
                 email = ""
                 makeErrorField(textField: textField)
             }
             
-        case passwordButton:
-            let isValidPassword = check(password: text)
-            emailButton.isUserInteractionEnabled = isValidPassword
-            emailButton.backgroundColor = isValidPassword ? activeColor : . systemGray5
+        case passwordTextField:
+            let isValidPassword = isValidPassword(text)
+            emailTextField.isUserInteractionEnabled = isValidPassword
+            emailTextField.backgroundColor = isValidPassword ? activeColor : . systemGray5
 
             if isValidPassword {
                 password = text
-                lockView.tintColor = .systemGray5
-                passwordLine.backgroundColor = .systemGray5
+                lockImageView.tintColor = .systemGray5
+                passwordLineView.backgroundColor = .systemGray5
             } else {
                 email = ""
                 makeErrorField(textField: textField)
@@ -128,22 +138,23 @@ extension ViewController: UITextFieldDelegate {
         }
     }
     
-    private func check(email: String) -> Bool {
-        email.contains("@") && email.contains(".")
-    }
-    
-    private func check(password: String) -> Bool {
-        return password.count >= 4
-    }
+	/// поменял нейминг, тк возвращаем Bool
+	private func isValidEmail(_ email: String) -> Bool {
+		return email.contains("@") && email.contains(".")
+	}
+	/// поменял нейминг, тк возвращаем Bool
+	private func isValidPassword(_ password: String) -> Bool {
+		return password.count >= 4
+	}
     
     private func makeErrorField(textField: UITextField ) {
         switch textField {
-        case emailButton:
-            envelopeVIew.tintColor = activeColor
-            emailLine .backgroundColor = activeColor
-        case passwordButton:
-            lockView.tintColor = activeColor
-            passwordLine.backgroundColor = activeColor
+        case emailTextField:
+            envelopeImageView.tintColor = activeColor
+            emailLineView .backgroundColor = activeColor
+        case passwordTextField:
+            lockImageView.tintColor = activeColor
+            passwordLineView.backgroundColor = activeColor
         default:
             print("unknownTextField")
         }

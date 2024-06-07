@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tgx-hE-mxB">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -191,15 +191,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="1O5-7o-iKQ"/>
                     <connections>
-                        <outlet property="createAccount" destination="Lfk-PD-85Q" id="mo8-en-Mp8"/>
-                        <outlet property="emailButton" destination="Kmg-FQ-78i" id="8XH-s0-vYn"/>
-                        <outlet property="emailLine" destination="fNf-nx-DpP" id="LFz-tu-j3b"/>
-                        <outlet property="envelopeVIew" destination="fv9-OX-8JG" id="Rsx-pG-dW3"/>
-                        <outlet property="lockView" destination="JVe-hp-FgC" id="kMW-V4-tT6"/>
-                        <outlet property="loginButton" destination="dSz-gY-zr7" id="8dp-Qe-cuP"/>
-                        <outlet property="passwordButton" destination="NaF-Mg-HiW" id="skp-Tl-Y20"/>
-                        <outlet property="passwordLine" destination="X9o-Fh-FBP" id="DhP-jC-WsL"/>
-                        <outlet property="signUp" destination="REL-w4-Oky" id="M9Y-V7-CEo"/>
+                        <outlet property="createAccountLabel" destination="Lfk-PD-85Q" id="mo8-en-Mp8"/>
+                        <outlet property="emailLineView" destination="fNf-nx-DpP" id="LFz-tu-j3b"/>
+                        <outlet property="emailTextField" destination="Kmg-FQ-78i" id="8XH-s0-vYn"/>
+                        <outlet property="envelopeImageView" destination="fv9-OX-8JG" id="Rsx-pG-dW3"/>
+                        <outlet property="lockImageView" destination="JVe-hp-FgC" id="kMW-V4-tT6"/>
+                        <outlet property="loginButton" destination="dSz-gY-zr7" id="8Qk-8D-1gi"/>
+                        <outlet property="passwordLineView" destination="X9o-Fh-FBP" id="DhP-jC-WsL"/>
+                        <outlet property="passwordTextField" destination="NaF-Mg-HiW" id="skp-Tl-Y20"/>
+                        <outlet property="signUpButton" destination="REL-w4-Oky" id="M9Y-V7-CEo"/>
                         <segue destination="zhs-pv-5qU" kind="show" identifier="goToHomePage" id="YW1-rg-gu5"/>
                     </connections>
                 </viewController>
